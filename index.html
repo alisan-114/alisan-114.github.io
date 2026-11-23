@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alişan Alaşahin</title>
+  <link id="favicon" rel="icon" type="image/png" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+  <link rel="apple-touch-icon" href="profil.jpg">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background: radial-gradient(circle at top, #131c31 0%, #090d16 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 12px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      margin: auto;
+      text-align: center;
+    }
+    .avatar-wrap {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      clip-path: circle(50%);
+      padding: 2.5px;
+      background: linear-gradient(135deg, #10b981, #0ea5e9);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-img, .avatar-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      clip-path: circle(50%);
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .avatar-fallback {
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 1.4rem;
+      font-weight: 700;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3px; }
+    .bio { color: #94a3b8; font-size: 0.82rem; line-height: 1.3; margin-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; width: 100%; }
+    .app {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      padding: 8px 4px 7px; border-radius: 13px;
+      background: rgba(30, 41, 59, 0.78); border: 1px solid rgba(148, 163, 184, 0.16);
+      text-decoration: none; -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .app:hover, .app:active, .quran-card:hover, .quran-card:active, .boycott-card:hover, .boycott-card:active {
+      transform: translateY(-2px); background: rgba(30, 41, 59, 0.98); border-color: #38bdf8;
+    }
+    .icon-wrap { position: relative; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+    .icon-wrap > svg { width: 24px; height: 24px; display: block; }
+    .meta-badge {
+      position: absolute; bottom: -3px; right: -6px; width: 17px; height: 12px; border-radius: 4px;
+      background: #0f172a; border: 1px solid rgba(0, 129, 251, 0.5);
+      display: flex; align-items: center; justify-content: center; padding: 1px;
+    }
+    .meta-badge svg { width: 13px; height: 9px; display: block; }
+    .flag-badge {
+      position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+      width: 18px; height: 12px; border-radius: 3px; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65); border: 1px solid rgba(255, 255, 255, 0.25); display: flex;
+    }
+    .flag-badge svg { width: 100%; height: 100%; display: block; }
+    .label {
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      white-space: nowrap;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lbl-youtube { background-image: linear-gradient(90deg, #ff2a2a, #ff7b7b); }
+    .lbl-linkedin { background-image: linear-gradient(90deg, #2b8cf0, #7cc0ff); }
+    .lbl-github { background-image: linear-gradient(90deg, #ffffff, #94a3b8); }
+    .lbl-telegram { background-image: linear-gradient(90deg, #26A5E4, #7dd3fc); }
+    .lbl-instagram { background-image: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #c084fc); }
+    .lbl-facebook { background-image: linear-gradient(90deg, #3b82f6, #93c5fd); }
+    .lbl-threads { background-image: linear-gradient(90deg, #f8fafc, #cbd5e1); }
+    .lbl-tiktok { background-image: linear-gradient(90deg, #25F4EE, #ffffff, #FE2C55); }
+    .lbl-twitter { background-image: linear-gradient(90deg, #1DA1F2, #7dd3fc); }
+    .lbl-bluesky { background-image: linear-gradient(90deg, #0285FF, #60a5fa); }
+    .lbl-mastodon { background-image: linear-gradient(90deg, #7c7dff, #c4b5fd); }
+    .lbl-nsosyal { background-image: linear-gradient(90deg, #3b82f6, #f87171); }
+    .lbl-upscrolled { background-image: linear-gradient(90deg, #f472b6, #22d3ee); }
+    .lbl-reddit { background-image: linear-gradient(90deg, #FF4500, #fb923c); }
+    .lbl-pinterest { background-image: linear-gradient(90deg, #ff2449, #fda4af); }
+
+    .divider { height: 1px; background: rgba(148, 163, 184, 0.14); margin: 10px 0 9px; }
+    .quran-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; width: 100%; align-items: start; }
+    .quran-col { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+    .quran-card {
+      display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 13px;
+      background: rgba(30, 41, 59, 0.78); border: 1px solid rgba(148, 163, 184, 0.16);
+      text-decoration: none; text-align: left; -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .quran-logo {
+      width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(15, 23, 42, 0.7);
+    }
+    .quran-logo img { width: 22px; height: 22px; object-fit: contain; display: block; }
+    .quran-logo svg { width: 20px; height: 20px; }
+    .quran-text { min-width: 0; }
+    .quran-sub {
+      display: block; font-size: 0.62rem; color: #94a3b8; line-height: 1.15; margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .quran-domain { display: block; font-size: 0.75rem; font-weight: 700; color: #34d399; letter-spacing: 0.01em; line-height: 1.15; }
+
+    .verse-card {
+      margin-top: 9px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: rgba(30, 41, 59, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      text-align: center;
+    }
+    .verse-ar {
+      font-size: 1.06rem;
+      line-height: 1.65;
+      color: #f8fafc;
+      font-weight: 600;
+      margin-bottom: 6px;
+      direction: rtl;
+    }
+    .verse-line {
+      font-size: 0.72rem;
+      line-height: 1.4;
+      color: #cbd5e1;
+      margin-top: 5px;
+    }
+    .verse-ref {
+      display: inline-block;
+      margin-left: 4px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: opacity 0.15s ease;
+    }
+    .verse-ref:hover { opacity: 0.8; }
+    .ref-en { color: #38bdf8; }
+    .ref-tr { color: #34d399; }
+
+    .boycott-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      width: 100%;
+      margin-top: 9px;
+    }
+    .boycott-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 13px;
+      background: rgba(30, 41, 59, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .ps-flag {
+      width: 24px;
+      height: 16px;
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+    }
+    .ps-flag svg { width: 100%; height: 100%; display: block; }
+    .boycott-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="avatar-wrap">
+      <img id="avatar-img" class="avatar-img" src="profil.jpg" alt="Alişan Alaşahin" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="avatar-fallback" style="display:none;">AA</div>
+    </div>
+
+    <h1>Alişan Alaşahin</h1>
+    <p class="bio">İHA Teknolojisi ve Operatörlüğü öğrencisi</p>
+
+    <div class="grid">
+      <!-- YouTube -->
+      <a class="app" href="https://youtube.com/@alisan-114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        </div>
+        <span class="label lbl-youtube">YouTube</span>
+      </a>
+
+      <!-- LinkedIn -->
+      <a class="app" href="https://www.linkedin.com/in/ali%C5%9Fan-ala%C5%9Fahin-20637b448" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        </div>
+        <span class="label lbl-linkedin">LinkedIn</span>
+      </a>
+
+      <!-- GitHub -->
+      <a class="app" href="https://github.com/alisan-114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </div>
+        <span class="label lbl-github">GitHub</span>
+      </a>
+
+      <!-- Telegram -->
+      <a class="app" href="https://t.me/Alisan114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.8 8.2-1.9 9c-.1.6-.5.8-1.1.5l-3-2.2-1.4 1.4c-.2.2-.3.3-.6.3l.2-3.1 5.6-5c.2-.2-.1-.3-.4-.1l-6.9 4.3-3-.9c-.6-.2-.7-.6.1-.9l11.7-4.5c.5-.2 1 .1.7 1.2z"/></svg>
+        </div>
+        <span class="label lbl-telegram">Telegram</span>
+      </a>
+
+      <!-- Instagram + Meta -->
+      <a class="app" href="https://www.instagram.com/alisan_alasahin_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#ig)" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+          <span class="meta-badge" title="Meta"><svg viewBox="0 0 24 16" fill="none" stroke="#0081FB" stroke-width="2.4" stroke-linecap="round"><path d="M6.8 3C4.2 3 2.2 5.2 2.2 8c0 2.7 1.9 5 4.4 5 1.7 0 3.1-1 4.6-3.3L12 8.4l.8 1.3C14.3 12 15.7 13 17.4 13c2.5 0 4.4-2.3 4.4-5 0-2.8-2-5-4.6-5-1.8 0-3.2 1.1-4.6 3.2L12 7.1l-.6-.9C10 4.1 8.6 3 6.8 3z"/></svg></span>
+        </div>
+        <span class="label lbl-instagram">Instagram</span>
+      </a>
+
+      <!-- Facebook + Meta -->
+      <a class="app" href="https://www.facebook.com/alisan_alasahin_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span class="meta-badge" title="Meta"><svg viewBox="0 0 24 16" fill="none" stroke="#0081FB" stroke-width="2.4" stroke-linecap="round"><path d="M6.8 3C4.2 3 2.2 5.2 2.2 8c0 2.7 1.9 5 4.4 5 1.7 0 3.1-1 4.6-3.3L12 8.4l.8 1.3C14.3 12 15.7 13 17.4 13c2.5 0 4.4-2.3 4.4-5 0-2.8-2-5-4.6-5-1.8 0-3.2 1.1-4.6 3.2L12 7.1l-.6-.9C10 4.1 8.6 3 6.8 3z"/></svg></span>
+        </div>
+        <span class="label lbl-facebook">Facebook</span>
+      </a>
+
+      <!-- Threads + Meta -->
+      <a class="app" href="https://www.threads.com/@alisan_alasahin_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/></svg>
+          <span class="meta-badge" title="Meta"><svg viewBox="0 0 24 16" fill="none" stroke="#0081FB" stroke-width="2.4" stroke-linecap="round"><path d="M6.8 3C4.2 3 2.2 5.2 2.2 8c0 2.7 1.9 5 4.4 5 1.7 0 3.1-1 4.6-3.3L12 8.4l.8 1.3C14.3 12 15.7 13 17.4 13c2.5 0 4.4-2.3 4.4-5 0-2.8-2-5-4.6-5-1.8 0-3.2 1.1-4.6 3.2L12 7.1l-.6-.9C10 4.1 8.6 3 6.8 3z"/></svg></span>
+        </div>
+        <span class="label lbl-threads">Threads</span>
+      </a>
+
+      <!-- TikTok -->
+      <a class="app" href="https://tiktok.com/@alisan_alasahin_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </div>
+        <span class="label lbl-tiktok">TikTok</span>
+      </a>
+
+      <!-- Twitter (X) -->
+      <a class="app" href="https://x.com/Alisan_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+        </div>
+        <span class="label lbl-twitter">Twitter (X)</span>
+      </a>
+
+      <!-- Bluesky -->
+      <a class="app" href="https://bsky.app/profile/alisan-114.bsky.social" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#0285FF"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg>
+        </div>
+        <span class="label lbl-bluesky">Bluesky</span>
+      </a>
+
+      <!-- Mastodon -->
+      <a class="app" href="https://mastodon.social/@alisan114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#6364FF"><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/></svg>
+        </div>
+        <span class="label lbl-mastodon">Mastodon</span>
+      </a>
+
+      <!-- NSosyal + Türk Bayrağı -->
+      <a class="app" href="https://nsosyal.com/alisan_alasahin_114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1D63ED"/><path fill="#ffffff" d="M6.5 18V6h3.2l4.6 6.8V6h3.2v12h-3.2l-4.6-6.8V18H6.5z"/></svg>
+          <span class="flag-badge" title="Türkiye"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#E30A17"/><circle cx="11.5" cy="10" r="5" fill="#ffffff"/><circle cx="12.8" cy="10" r="4" fill="#E30A17"/><polygon fill="#ffffff" points="16.5,10 19.8,11.1 17.8,8.3 17.8,11.7 19.8,8.9"/></svg></span>
+        </div>
+        <span class="label lbl-nsosyal">NSosyal</span>
+      </a>
+
+      <!-- UpScrolled -->
+      <a class="app" href="https://upscrolled.com/@Alisan114" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24"><path fill="#E91E63" d="M6.8 3h1.9c1.5 0 2.8 1.3 2.8 2.8v5.7c0 2.8-2.2 5-5 5l-2.7 2.3c-.4.3-.9 0-.8-.5l.6-3.1c-.4-.8-.6-1.7-.6-2.7V6.8C3 4.7 4.7 3 6.8 3z"/><path fill="#00BCD4" d="M16.5 12c-2.4 0-4.3 1.9-4.3 4.3s1.9 4.3 4.3 4.3 4.3-1.9 4.3-4.3v-3.7c0-.4-.4-.7-.8-.6l-2.2.3c-.4-.2-.8-.3-1.3-.3z"/></svg>
+        </div>
+        <span class="label lbl-upscrolled">UpScrolled</span>
+      </a>
+
+      <!-- Reddit -->
+      <a class="app" href="https://www.reddit.com/u/Alisan_114/s/mPb4civKpg" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#FF4500"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+        </div>
+        <span class="label lbl-reddit">Reddit</span>
+      </a>
+
+      <!-- Pinterest -->
+      <a class="app" href="https://pin.it/1eK0Mk8Fz" target="_blank" rel="noopener noreferrer">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="#E60023"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.367 18.62 0 12.017 0z"/></svg>
+        </div>
+        <span class="label lbl-pinterest">Pinterest</span>
+      </a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="quran-grid">
+      <div class="quran-col">
+        <a class="quran-card" href="https://acikkuran.com" target="_blank" rel="noopener noreferrer">
+          <div class="quran-logo">
+            <img src="https://www.google.com/s2/favicons?domain=acikkuran.com&sz=64" alt="Açık Kuran" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+            <svg style="display:none;" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="quran-text">
+            <span class="quran-sub">Kuran okumak için site</span>
+            <span class="quran-domain">Açık Kuran</span>
+          </div>
+        </a>
+
+        <a class="quran-card" href="https://akilkuran.com" target="_blank" rel="noopener noreferrer">
+          <div class="quran-logo">
+            <img src="https://www.google.com/s2/favicons?domain=akilkuran.com&sz=64" alt="Akıl Kuran" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+            <svg style="display:none;" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="quran-text">
+            <span class="quran-sub">Alternatif</span>
+            <span class="quran-domain">Akıl Kuran</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="quran-col">
+        <a class="quran-card" href="https://quran.so" target="_blank" rel="noopener noreferrer">
+          <div class="quran-logo">
+            <img src="https://www.google.com/s2/favicons?domain=quran.so&sz=64" alt="Quran.so" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+            <svg style="display:none;" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="quran-text">
+            <span class="quran-sub">Website to read the Quran</span>
+            <span class="quran-domain" style="color: #38bdf8;">Quran.so</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="verse-card">
+      <p class="verse-ar" lang="ar">مِنْ اَجْلِ ذٰلِكَۚۛ كَتَبْنَا عَلٰى بَن۪ٓي اِسْرَٓائ۪لَ اَنَّهُ مَنْ قَتَلَ نَفْساً بِغَيْرِ نَفْسٍ اَوْ فَسَادٍ فِي الْاَرْضِ فَكَاَنَّمَا قَتَلَ النَّاسَ جَم۪يـعاًۜ وَمَنْ اَحْيَاهَا فَكَاَنَّمَٓا اَحْيَا النَّاسَ جَم۪يعاًۜ وَلَقَدْ جَٓاءَتْهُمْ رُسُلُنَا بِالْبَيِّنَاتِۘ ثُمَّ اِنَّ كَث۪يراً مِنْهُمْ بَعْدَ ذٰلِكَ فِي الْاَرْضِ لَمُسْرِفُونَ ﴿٣٢﴾</p>
+      <p class="verse-line">
+       For that cause We prescribed for the children of Israel that whoso takes a life other than for a life or corruption in the land, it will be as if he killed mankind altogether and whoso gives life, it will be as if he gave life to mankind altogether ­— and Our messengers came to them with clear signs, then many of them after that are committers of excess in the earth —
+        <a class="verse-ref ref-en" href="https://quran.so/5/32" target="_blank" rel="noopener noreferrer">Quran 5:32</a>
+      </p>
+      <p class="verse-line">
+        Bundan dolayı İsrâîloğulları'na yazdık: "Kuşkusuz kim, bir cana karşılık olmaksızın veya yeryüzünde bozgunculuk yapmamış birini öldürürse, sanki bütün insanları öldürmüş gibidir. Kim de onu yaşatırsa, sanki bütün insanları yaşatmış gibi olur." Resûllerimiz onlara kanıtlayıcı açık bilgilerle geldiği halde onların çoğu bundan sonra da yeryüzünde israf/aşırılık yapmaktadırlar.
+        <a class="verse-ref ref-tr" href="https://acikkuran.com/5/32" target="_blank" rel="noopener noreferrer">Kuran 5:32</a>
+      </p>
+    </div>
+
+    <!-- Boykot & Boycott (Filistin Bayraklı) -->
+    <div class="boycott-grid">
+      <a class="boycott-card" href="https://acikkuran.com/11/113" target="_blank" rel="noopener noreferrer">
+        <span class="ps-flag" title="Filistin">
+          <svg viewBox="0 0 30 20">
+            <rect width="30" height="6.67" y="0" fill="#000000"/>
+            <rect width="30" height="6.67" y="6.67" fill="#FFFFFF"/>
+            <rect width="30" height="6.67" y="13.33" fill="#009736"/>
+            <polygon points="0,0 11,10 0,20" fill="#EE2A35"/>
+          </svg>
+        </span>
+        <span class="boycott-title">Boykot</span>
+      </a>
+
+      <a class="boycott-card" href="https://quran.so/11/113" target="_blank" rel="noopener noreferrer">
+        <span class="ps-flag" title="Palestine">
+          <svg viewBox="0 0 30 20">
+            <rect width="30" height="6.67" y="0" fill="#000000"/>
+            <rect width="30" height="6.67" y="6.67" fill="#FFFFFF"/>
+            <rect width="30" height="6.67" y="13.33" fill="#009736"/>
+            <polygon points="0,0 11,10 0,20" fill="#EE2A35"/>
+          </svg>
+        </span>
+        <span class="boycott-title">Boycott</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function setRoundFavicon(img) {
+        try {
+          if (!img || !img.naturalWidth) return;
+          var size = 128;
+          var canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+          var ctx = canvas.getContext("2d");
+          ctx.beginPath();
+          ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          var min = Math.min(img.naturalWidth, img.naturalHeight);
+          var sx = (img.naturalWidth - min) / 2;
+          var sy = (img.naturalHeight - min) / 2;
+          ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+          var fav = document.getElementById("favicon");
+          if (fav) {
+            fav.href = canvas.toDataURL("image/png");
+          }
+        } catch (e) {}
+      }
+      var avatar = document.getElementById("avatar-img");
+      if (avatar) {
+        if (avatar.complete && avatar.naturalWidth) {
+          setRoundFavicon(avatar);
+        } else {
+          avatar.addEventListener("load", function () { setRoundFavicon(avatar); });
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
